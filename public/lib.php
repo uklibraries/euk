@@ -5,7 +5,7 @@ use LightnCandy\LightnCandy;
 
 # Load precompiled templates
 $templates = array();
-$templates_dir = 'templates';
+$templates_dir = 'handlebars';
 foreach (glob("$templates_dir/*.php") as $template) {
     $handle = basename($template, '.php');
     $templates[$handle] = include($template);

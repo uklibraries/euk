@@ -5,7 +5,7 @@ use LightnCandy\LightnCandy;
 
 $template_dir = '../handlebars';
 
-$dest_dir = 'templates';
+$dest_dir = 'handlebars';
 
 foreach (glob("$template_dir/*.handlebars") as $source) {
     $basename = basename($source, '.handlebars');
