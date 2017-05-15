@@ -1,12 +1,9 @@
 <?php
-require_once('lib.php');
-
+require_once('init.php');
 use LightnCandy\LightnCandy;
 
 $template_dir = '../handlebars';
-
 $dest_dir = 'handlebars';
-
 foreach (glob("$template_dir/*.handlebars") as $source) {
     $basename = basename($source, '.handlebars');
     $target = "$dest_dir/$basename.php";

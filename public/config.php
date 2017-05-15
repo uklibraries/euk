@@ -1,6 +1,10 @@
 <?php 
 $templates_dir = 'handlebars';
 
+$title = 'ExploreStatic';
+$site_title = 'ExploreUK';
+$search_placeholder = 'ExploreUK';
+
 $solr = 'https://selene.ukpdp.org/solr/select/';
 
 $facets = array(
