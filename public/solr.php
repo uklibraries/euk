@@ -11,7 +11,7 @@ $result = json_decode(file_get_contents($url), true);
 
 if ((isset($q) or count($fq) > 0) and isset($result['response']) and
     isset($result['response']['docs']) and
-    count($result['response']['docs']) > 0) {
+    (count($result['response']['docs']) > 0) or ($result['response']['numFound'] == 0)) {
 
     # pagination
     $data = array(
@@ -54,6 +54,11 @@ if ((isset($q) or count($fq) > 0) and isset($result['response']) and
     }
     $results_html = implode('', $results);
     $front = false;
+
+    if ($result['response']['numFound'] == 0) {
+        $pagination_html = null;
+        $results_html = $templates['no-results'](array());
+    }
 }
 else {
     $front = true;
