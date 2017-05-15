@@ -1,29 +1,15 @@
 <?php 
 require_once('vendor/autoload.php');
+require_once('config.php');
 
 use LightnCandy\LightnCandy;
 
 # Load precompiled templates
 $templates = array();
-$templates_dir = 'handlebars';
 foreach (glob("$templates_dir/*.php") as $template) {
     $handle = basename($template, '.php');
     $templates[$handle] = include($template);
 }
-
-$solr = 'https://selene.ukpdp.org/solr/select/';
-
-$facets = array(
-    'format',
-    'source_s',
-    'pub_date',
-);
-
-$facets_titles = array(
-    'format' => 'format',
-    'source_s' => 'collection',
-    'pub_date' => 'publication year',
-);
 
 function facet_displayname($facet) {
     global $facets_titles;
@@ -42,23 +28,6 @@ function makeNavsSensible($navs) {
     }
     return $newNav;
 }
-
-$hit_fields = array(
-    'title' => 'title_display',
-    'thumb' => 'thumbnail_url_s',
-    'source' => 'source_s',
-    'pubdate' => 'pub_date',
-    'format' => 'format',
-);
-
-$hits_per_page = 20;
-$id_field = 'id';
-
-$hl = true;
-$hl_fl = 'title_display';
-$hl_simple_pre = '<em>';
-$hl_simple_post = '</em>';
-$hl_snippets = 3;
 
 $q = null;
 $fq = array();
