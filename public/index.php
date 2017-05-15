@@ -12,7 +12,7 @@ require_once('solr.php');
     <link href="/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
 
-    <link href="css/solrstrap.css" rel="stylesheet" media="screen">
+    <link href="/css/solrstrap.css" rel="stylesheet" media="screen">
   </head>
   <body screen_capture_injected="true">
 
