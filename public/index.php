@@ -5,6 +5,7 @@ initialize_query();
 $data = array(
     'title' => $title,
     'site_title' => $site_title,
+    'search_placeholder' => $search_placeholder,
 );
 
 $url = "$solr?" . build_search_params();
@@ -80,8 +81,6 @@ if (count($query['fq']) > 0) {
     $data['active_filters'] = $templates['chosen-nav-template-php'](array(
         'navs' => implode('', $navs),
     ));
-}
-else {
 }
 
 # facets
