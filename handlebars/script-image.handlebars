@@ -1,0 +1,13 @@
+<script type="text/javascript">
+var id = '{{osd_id}}';
+var osd_viewer = OpenSeadragon({
+    id: id,
+    prefixUrl: "{{prefix_url}}",
+    tileSources: {
+        type: 'image',
+        url: '{{reference_image_url_s}}'
+    }
+});
+$(osd_viewer.element).find('.openseadragon-canvas').css('background-color', 'black');
+$('#{{ref_id}}').hide();
+</script>

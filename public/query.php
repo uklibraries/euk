@@ -109,6 +109,12 @@ function remove_filter($facet, $label) {
     ));
 }
 
+function get_search_results() {
+    global $solr;
+    $url = "$solr?" . build_search_params();
+    return json_decode(file_get_contents($url), true);
+}
+
 function build_search_params() {
     global $query;
     global $facets;
@@ -138,5 +144,25 @@ function build_search_params() {
     }
     # compound object
     $pieces[] = 'fq=' . urlencode("compound_object_split_b:true");
+    return implode('&', $pieces);
+}
+
+function get_document($id) {
+    global $solr;
+    $url = "$solr?" . document_query($id);
+    $result = json_decode(file_get_contents($url), true);
+    if (isset($result['response']) and $result['response']['docs'] > 0) {
+        return $result['response']['docs'][0];
+    }
+    else {
+        return null;
+    }
+}
+
+function document_query($id) {
+    $pieces = array();
+    $pieces[] = 'fq=' . urlencode("id:$id");
+    $pieces[] = 'fl=' . urlencode("*");
+    $pieces[] = 'wt=json';
     return implode('&', $pieces);
 }

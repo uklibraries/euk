@@ -8,8 +8,7 @@ $data = array(
     'search_placeholder' => $search_placeholder,
 );
 
-$url = "$solr?" . build_search_params();
-$result = json_decode(file_get_contents($url), true);
+$result = get_search_results();
 
 if (!on_front_page()) {
     if (intval($result['response']['numFound']) > 0) {
@@ -49,7 +48,8 @@ if (!on_front_page()) {
             if (isset($results_data['thumb'])) {
                 $results_data['thumb'] = str_replace('http:', 'https:', $results_data['thumb']);
             }
-            $results_data['link'] = "https://exploreuk.uky.edu/catalog/" . $docs[$i]['id'];
+            #$results_data['link'] = "https://exploreuk.uky.edu/catalog/" . $docs[$i]['id'];
+            $results_data['link'] = '/catalog/' . $docs[$i]['id'];
             $results_data['number'] = $query['offset'] + $i + 1;
             $results[] = $templates['hit-template']($results_data);
         }
