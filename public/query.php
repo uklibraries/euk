@@ -19,16 +19,18 @@ function initialize_query() {
     }
     foreach ($raw_params as $raw_param) {
         preg_match('/(?<key>[^=]+)=(?<value>.*)/', $raw_param, $matches);
-        $key = urldecode($matches['key']);
-        $value = urldecode($matches['value']);
-        if ($key == 'q' and strlen($value) > 0) {
-            $query['q'] = $value;
-        }
-        elseif ($key == 'fq[]') {
-            $query['fq'][] = $value;
-        }
-        elseif ($key == 'offset') {
-            $query['offset'] = intval($value);
+        if (count($matches) > 0) {
+            $key = urldecode($matches['key']);
+            $value = urldecode($matches['value']);
+            if ($key == 'q' and strlen($value) > 0) {
+                $query['q'] = $value;
+            }
+            elseif ($key == 'fq[]') {
+                $query['fq'][] = $value;
+            }
+            elseif ($key == 'offset') {
+                $query['offset'] = intval($value);
+            }
         }
     }
     return $query;
@@ -164,5 +166,28 @@ function document_query($id) {
     $pieces[] = 'fq=' . urlencode("id:$id");
     $pieces[] = 'fl=' . urlencode("*");
     $pieces[] = 'wt=json';
+    return implode('&', $pieces);
+}
+
+function get_pages($id) {
+    global $solr;
+    $url = "$solr?" . pages_query($id);
+    $result = json_decode(file_get_contents($url), true);
+    if (isset($result['response']) and $result['response']['docs'] > 0) {
+        return $result['response']['docs'];
+    }
+    else {
+        return null;
+    }
+}
+
+function pages_query($id) {
+    $parent = preg_replace('/_[^_]+$/', '', $id);
+    $pieces = array();
+    $pieces[] = 'fq=' . urlencode("parent_id_s:$parent");
+    $pieces[] = 'wt=json';
+    $pieces[] = 'fl=' . urlencode('reference_image_url_s,reference_image_width_s,reference_image_height_s');
+    $pieces[] = 'rows=10000';
+    $pieces[] = 'sort=browse_key_sort+asc';
     return implode('&', $pieces);
 }

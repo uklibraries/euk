@@ -41,6 +41,16 @@ case 'images':
     ));
     print $templates['show']($data);
     break;
+case 'books':
+    $pages = get_pages($id);
+    if ($pages) {
+        $data['scripts'] = $templates['script-book'](array(
+            'json' => json_encode($pages),
+        ));
+    }
+    #$data['item'] = json_encode($pages);
+    print $templates['books']($data);
+    break;
 default:
     $pieces = array();
     foreach ($doc as $field => $value) {
