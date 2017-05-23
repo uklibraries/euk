@@ -29,6 +29,19 @@ foreach ($doc as $key => $value) {
 }
 
 switch ($format) {
+case 'audio':
+    $data['item'] = $templates['item-media'](array_merge(
+        $flat,
+        array(
+            'audio' => array(
+                'href_id' => "audio_$id",
+                'href' => $flat['reference_audio_url_s'],
+            ),
+        )
+    ));
+    $data['scripts'] = $templates['script-media'](array());
+    print $templates['show']($data);
+    break;
 case 'drawings (visual works)':
     /* fall through */
 case 'images':

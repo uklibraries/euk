@@ -1,0 +1,24 @@
+<script type="text/javascript">
+$('.click-to-play-audio').click(function () {
+  var href_id = $(this).attr('data-id');
+  var href = $(this).attr('data-href');
+  $(this).after('<audio id="' + href_id + '" src="' + href  + '" style="display:block, width: 305px; height: 30px;" width="305" height="30"></audio>');
+  $('#' + href_id).mediaelementplayer();
+  var player = new MediaElement(href_id);
+  player.pause();
+  player.setSrc(href);
+  player.play();
+  $(this).remove();
+});
+$('.click-to-play-video').click(function () {
+  var href_id = $(this).attr('data-id');
+  var href = $(this).attr('data-href');
+  $(this).after('<video id="' + href_id + '" src="' + href  + '" style="display:block, width: 360px; height: 240px;" width="360" height="240"></audio>');
+  $('#' + href_id).mediaelementplayer();
+  var player = new MediaElement(href_id);
+  player.pause();
+  player.setSrc(href);
+  player.play();
+  $(this).remove();
+});
+</script>
