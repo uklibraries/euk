@@ -12,7 +12,6 @@ br = new BookReader();
 
 // Return the width of a given page.  Here we assume all images are 800 pixels wide
 br.getPageWidth = function(index) {
-    //return 800;
     if (index >= 0 && index < pages.length) {
         return parseInt(pages[index]["reference_image_width_s"][0], 10);
     }
@@ -23,7 +22,6 @@ br.getPageWidth = function(index) {
 
 // Return the height of a given page.  Here we assume all images are 1200 pixels high
 br.getPageHeight = function(index) {
-    //return 1200;
     if (index >= 0 && index < pages.length) {
         return parseInt(pages[index]["reference_image_height_s"][0], 10);
     }
@@ -38,12 +36,6 @@ br.getPageURI = function(index, reduce, rotate) {
     // reduce and rotate are ignored in this simple implementation, but we
     // could e.g. look at reduce and load images from a different directory
     // or pass the information to an image server
-    /*
-    var leafStr = '000';            
-    var imgStr = (index+1).toString();
-    var re = new RegExp("0{"+imgStr.length+"}$");
-    var url = 'https://www.archive.org/download/BookReader/img/page'+leafStr.replace(re, imgStr) + '.jpg';
-    */
     var url;
     if (index >= 0 && index < pages.length) {
         url = pages[index]["reference_image_url_s"];
@@ -52,7 +44,6 @@ br.getPageURI = function(index, reduce, rotate) {
         url = '/images/logo.png'
     }
 
-    //var url = json["response"]["docs"][index]["reference_image_url_s"];
     return url;
 }
 
@@ -107,11 +98,11 @@ br.getPageNum = function(index) {
 br.numLeafs = pages.length; //15;
 
 // Book title and the URL used for the book title link
-br.bookTitle= 'Open Library BookReader Presentation';
-br.bookUrl  = 'http://openlibrary.org';
+//br.bookTitle = item_title;
+br.bookTitle = 'ExploreUK';
+br.bookUrl  = '/';
 
 // Override the path used to find UI images
-//br.imagesBaseURL = '../BookReader/images/';
 br.imagesBaseURL = '/BookReader/images/';
 
 br.getEmbedCode = function(frameWidth, frameHeight, viewParams) {
