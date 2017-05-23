@@ -1,15 +1,8 @@
 <div class="entry row">
 {{#if link}}
-<div class="col-md-5">
+<div class="col-md-7">
 <b>{{number}}.</b>
-<a href="{{link}}">{{{title}}}</a>
-</div>
-<div class="col-md-3">
-{{#if thumb}}
-<a href="{{link}}"><img src="{{thumb}}"/></a></dt>
-{{/if}}
-</div>
-<div class="span6">
+<a href="{{link}}">{{{title}}}</a><br>
 <dl>
 {{#if source}}
     <dd class="span1">Collection:</dd>
@@ -25,5 +18,10 @@
 {{/if}}
 </dl>
 </div>
+<div class="col-md-1">
+{{#if thumb}}
+<a href="{{link}}"><img src="{{thumb}}"/></a></dt>
 {{/if}}
+{{/if}}
+</div>
 </div>
