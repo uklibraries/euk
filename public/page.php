@@ -12,6 +12,7 @@ $data = array(
     'site_title' => $site_title,
     'search_placeholder' => $search_placeholder,
 );
+$data['back_to_search'] = link_to_query($query);
 
 $doc = get_document($id);
 $format = $doc['format'];

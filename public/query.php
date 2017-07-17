@@ -1,5 +1,6 @@
 <?php
 require_once('config.php');
+initialize_query();
 
 function on_front_page() {
     global $query;
@@ -190,4 +191,9 @@ function pages_query($id) {
     $pieces[] = 'rows=10000';
     $pieces[] = 'sort=browse_key_sort+asc';
     return implode('&', $pieces);
+}
+
+function back_to_search() {
+    global $query;
+    return json_encode(link_to_query($query));
 }
