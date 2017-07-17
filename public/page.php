@@ -75,6 +75,18 @@ foreach ($desired as $row) {
         );
     }
 }
+
+if (array_key_exists('finding_aid_url_s', $doc)) {
+    $entry = array(
+        'label' => 'Collection guide',
+        'anchor' => true,
+        'key' => 'collection_guide',
+        'value' => '/catalog/' . $doc['object_id_s'][0] . link_to_query($query),
+        'link' => true,
+    );
+    $metadata[] = $entry;
+}
+
 $flat['metadata'] = $metadata;
 
 switch ($format) {

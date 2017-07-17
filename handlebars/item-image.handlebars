@@ -7,6 +7,7 @@
 
 <div>
 {{#metadata}}
+{{^anchor}}
 <li>{{label}}:
 {{#link}}
 <a href="{{value}}">{{value}}</a>
@@ -14,5 +15,9 @@
 {{^link}}
 {{value}}
 {{/link}}</li>
+{{/anchor}}
+{{#anchor}}
+<li><a href="{{value}}">{{label}}</a></li>
+{{/anchor}}
 {{/metadata}}
 </div>
