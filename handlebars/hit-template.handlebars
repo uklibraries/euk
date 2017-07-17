@@ -2,7 +2,7 @@
 {{#if link}}
 <div class="col-md-7">
 <b>{{number}}.</b>
-<a href="{{link}}">{{{title}}}</a><br>
+<a href="{{link}}"{{target}}>{{{title}}}</a><br>
 <dl>
 {{#if source}}
     <dd class="span1">Collection:</dd>
@@ -20,7 +20,7 @@
 </div>
 <div class="col-md-1">
 {{#if thumb}}
-<a href="{{link}}"><img src="{{thumb}}"/></a></dt>
+<a href="{{link}}"{{target}}><img src="{{thumb}}"/></a></dt>
 {{/if}}
 {{/if}}
 </div>

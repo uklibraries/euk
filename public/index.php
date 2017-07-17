@@ -50,6 +50,9 @@ if (!on_front_page()) {
             }
             $results_data['link'] = '/catalog/' . $docs[$i]['id'] . link_to_query($query);
             $results_data['number'] = $query['offset'] + $i + 1;
+            if ($results_data['format'] === 'collections') {
+                $results_data['target'] = ' target="_blank"';
+            }
             $results[] = $templates['hit-template']($results_data);
         }
         $data['results'] = implode('', $results);

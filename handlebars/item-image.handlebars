@@ -4,3 +4,15 @@
     <img class="reference_image" id="reference_image" src="{{reference_image_url_s}}">
     <div id="viewer" style="width: 100%; height: 600px;"></div>
 </div>
+
+<div>
+{{#metadata}}
+<li>{{label}}:
+{{#link}}
+<a href="{{value}}">{{value}}</a>
+{{/link}}
+{{^link}}
+{{value}}
+{{/link}}</li>
+{{/metadata}}
+</div>
