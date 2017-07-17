@@ -87,6 +87,28 @@ if (array_key_exists('finding_aid_url_s', $doc)) {
     $metadata[] = $entry;
 }
 
+if (array_key_exists('pdf_url_display', $doc)) {
+    $entry = array(
+        'label' => 'PDF',
+        'anchor' => true,
+        'key' => 'pdf_url_display',
+        'value' => $doc['pdf_url_display'][0],
+        'link' => true,
+    );
+    $metadata[] = $entry;
+}
+
+if (array_key_exists('reference_image_url_s', $doc)) {
+    $entry = array(
+        'label' => 'Reference image',
+        'anchor' => true,
+        'key' => 'reference_image_url_s',
+        'value' => $doc['reference_image_url_s'][0],
+        'link' => true,
+    );
+    $metadata[] = $entry;
+}
+
 $flat['metadata'] = $metadata;
 
 switch ($format) {
