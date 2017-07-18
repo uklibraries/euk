@@ -29,6 +29,7 @@ $hit_fields = array(
 
 $hits_per_page = 20;
 $id_field = 'id';
+$text_field = 'text_s';
 
 $hl = true;
 $hl_fl = 'title_display';

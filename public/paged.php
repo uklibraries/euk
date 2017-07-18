@@ -111,86 +111,10 @@ if (array_key_exists('reference_image_url_s', $doc)) {
 
 $flat['metadata'] = $metadata;
 
-switch ($format) {
-case 'audio':
-    $data['item'] = $templates['item-media'](array_merge(
-        $flat,
-        array(
-            'audio' => array(
-                'href_id' => "audio_$id",
-                'href' => $flat['reference_audio_url_s'],
-            ),
-        )
+$pages = get_pages($id);
+if ($pages) {
+    $data['scripts'] = $templates['script-book-embed'](array(
+        'json' => json_encode($pages),
     ));
-    $data['scripts'] = $templates['script-media'](array());
-    print $templates['show']($data);
-    break;
-case 'drawings (visual works)':
-    /* fall through */
-case 'images':
-    $data['item'] = $templates['item-image']($flat);
-    $data['scripts'] = $templates['script-image'](array_merge(
-        $flat,
-        array(
-            'osd_id' => 'viewer',
-            'prefix_url' => '/openseadragon/images/',
-            'ref_id' => 'reference_image',
-        )
-    ));
-    print $templates['show']($data);
-    break;
-case 'annual reports':
-    /* fall through */
-case 'architectural drawings (visual works)':
-    /* fall through */
-case 'archival material':
-    /* fall through */
-case 'athletic publications':
-    /* fall through */
-case 'booklets':
-    /* fall through */
-case 'books':
-    /* fall through */
-case 'course catalogs':
-    /* fall through */
-case 'directories':
-    /* fall through */
-case 'indexes (reference sources)':
-    /* fall through */
-case 'journals':
-    /* fall through */
-case 'ledgers':
-    /* fall through */
-case 'maps':
-    /* fall through */
-case 'minutes':
-    /* fall through */
-case 'newsletters':
-    /* fall through */
-case 'newspapers':
-    /* fall through */
-case 'yearbooks':
-    $flat['embed_url'] = '/catalog/' . $id . '/paged';
-    $data['item'] = $templates['books']($flat);
-    #print $templates['books']($data);
-    print $templates['show']($data);
-    break;
-case 'collections':
-    /* We'll want to embed this eventually */
-    $target = "https://nyx.uky.edu/fa/findingaid/?id=$id";
-    header('Location: '. $target);
-    break;
-default:
-    $pieces = array();
-    foreach ($doc as $field => $value) {
-        if (is_array($value)) {
-            $value = implode('; ', $value);
-        }
-        $pieces[] = "<b>$field</b>: $value";
-    }
-    $data['item'] = '<ul><li>' . implode('</li><li>', $pieces) . "</li></ul>\n";
-    $url = "$solr?" . document_query($id);
-    $data['item'] .= "<p><a href=\"$url\">$url</a></p>";
-    print $templates['show']($data);
-    break;
 }
+print $templates['books-embed']($data);
