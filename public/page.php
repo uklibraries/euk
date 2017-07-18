@@ -171,8 +171,12 @@ case 'newspapers':
     /* fall through */
 case 'yearbooks':
     $flat['embed_url'] = '/catalog/' . $id . '/paged';
+    if (array_key_exists($text_field, $doc)) {
+        $flat['text'] = array(
+            'href' => '/catalog/' . $id . '/text',
+        );
+    }
     $data['item'] = $templates['books']($flat);
-    #print $templates['books']($data);
     print $templates['show']($data);
     break;
 case 'collections':

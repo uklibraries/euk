@@ -5,6 +5,12 @@
 </div>
 
 <div>
+{{#text}}
+<p><a href="#text" data-lity>Text</a></p>
+<div id="text" class="lity-hide" style="background: white;">
+    <iframe src="{{href}}" width="100%" name="text"></iframe>
+</div>
+{{/text}}
 {{#metadata}}
 {{^anchor}}
 <li>{{label}}:
