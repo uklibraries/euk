@@ -6,6 +6,14 @@
 </div>
 
 <div>
+<p><a href="#download" data-lity>Download</a></p>
+<div id="download" class="lity-hide" style="background: white;">
+    <a href="/catalog/{{id}}/download/?type=jpeg">JPEG</a>
+    <a href="/catalog/{{id}}/download/?type=pdf">PDF</a>
+</div>
+</div>
+<div>
+<ul>
 {{#metadata}}
 {{^anchor}}
 <li>{{label}}:
@@ -20,4 +28,5 @@
 <li><a href="{{value}}">{{label}}</a></li>
 {{/anchor}}
 {{/metadata}}
+</ul>
 </div>
