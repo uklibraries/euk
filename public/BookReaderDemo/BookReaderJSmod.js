@@ -116,3 +116,14 @@ br.init();
 $('#BRtoolbar').find('.read').hide();
 $('#textSrch').hide();
 $('#btnSrch').hide();
+
+function updateOuter() {
+    var origin = window.location.protocol + '//' + window.location.hostname;
+    var page = parseInt(br.paramsFromFragment(window.location.hash).page, 10) - 1;
+    parent.postMessage({page: json[page], hash: window.location.hash}, origin);
+}
+
+if ('onhashchange' in window) {
+    window.addEventListener('hashchange', updateOuter);
+}
+updateOuter();

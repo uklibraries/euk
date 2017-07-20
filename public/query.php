@@ -187,7 +187,7 @@ function pages_query($id) {
     $pieces = array();
     $pieces[] = 'fq=' . urlencode("parent_id_s:$parent");
     $pieces[] = 'wt=json';
-    $pieces[] = 'fl=' . urlencode('reference_image_url_s,reference_image_width_s,reference_image_height_s');
+    $pieces[] = 'fl=' . urlencode('id,reference_image_url_s,reference_image_width_s,reference_image_height_s');
     $pieces[] = 'rows=10000';
     $pieces[] = 'sort=browse_key_sort+asc';
     return implode('&', $pieces);
