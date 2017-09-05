@@ -14,7 +14,7 @@ foreach (glob("$templates_dir/*.php") as $template) {
 function facet_displayname($facet) {
     global $facets_titles;
     if (isset($facets_titles[$facet])) {
-        return $facets_titles[$facet];
+        return ucfirst($facets_titles[$facet]);
     }
     else {
         return 'unknown';

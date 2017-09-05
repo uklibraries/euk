@@ -27,7 +27,6 @@ $hit_fields = array(
     'format' => 'format',
 );
 
-$hits_per_page = 20;
 $id_field = 'id';
 $text_field = 'text_s';
 

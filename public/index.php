@@ -2,20 +2,69 @@
 require_once('init.php');
 initialize_query();
 
-$data = array(
-    'title' => $title,
-    'site_title' => $site_title,
-    'search_placeholder' => $search_placeholder,
-);
-
 $result = get_search_results();
 
+$data = array(
+    'site_title' => $site_title,
+);
+
+# Search
+$data['query'] = htmlspecialchars(json_encode($query));
+$data['q'] = $query['q'];
+$data['search_link'] = "$solr?" . build_search_params();
+$data['back_to_search'] = link_to_query($query);
+
+# Facets
+$data['active_facets'] = array();
+foreach ($query['f'] as $f_term => $value) {
+    $remove_link = remove_filter($f_term, $value);
+    $field_label = facet_displayname($f_term);
+    $facet_counts = $result['facet_counts']['facet_fields'][$f_term];
+    $count = 0;
+    if (count($facet_counts) > 0) {
+        $navs_sensible = makeNavsSensible($facet_counts);
+        $count = $navs_sensible[$value];
+    }
+    $data['active_facets'][] = array(
+        'field_label' => $field_label,
+        'remove_link' => $remove_link,
+        'field_raw' => $f_term,
+        'value_label' => $value,
+        'count' => $count,
+    );
+}
+
+$data['facets'] = array();
+foreach ($facets as $facet) {
+    $facet_counts = $result['facet_counts']['facet_fields'][$facet];
+    if (count($facet_counts) > 2) {
+        $navs_sensible = makeNavsSensible($facet_counts);
+        $values = array();
+        foreach ($navs_sensible as $label => $count) {
+            $add_link = add_filter($facet, $label);
+            $values[] = array(
+                'add_link' => $add_link,
+                'value_label' => $label,
+                'count' => $count,
+            );
+        }
+        $data['facets'][] = array(
+            'field_label' => facet_displayname($facet),
+            'values' => $values,
+        );
+    }
+}
+
+# Pagination and results
 if (!on_front_page()) {
+    $data['on_front_page'] = false;
+    $data['pagination'] = array();
+    $data['results'] = array();
     if (intval($result['response']['numFound']) > 0) {
         #pagination
         $pagination_data = array(
             'first' => $query['offset'] + 1,
-            'last' => $query['offset'] + $hits_per_page,
+            'last' => $query['offset'] + $query['rows'],
             'count' => $result['response']['numFound'],
         );
         if ($query['offset'] > 0) {
@@ -24,7 +73,10 @@ if (!on_front_page()) {
         if ($pagination_data['last'] <= $pagination_data['count']) {
             $pagination_data['next'] = next_link();
         }
-        $data['pagination'] = $templates['pagination']($pagination_data);
+        else {
+            $pagination_data['last'] = $pagination_data['count'];
+        }
+        $data['pagination'] = $pagination_data;
 
         # results
         $docs = $result['response']['docs'];
@@ -53,55 +105,18 @@ if (!on_front_page()) {
             if ($results_data['format'] === 'collections') {
                 $results_data['target'] = ' target="_blank"';
             }
-            $results[] = $templates['hit-template']($results_data);
+            $results[] = $results_data;
         }
-        $data['results'] = implode('', $results);
-    }
-    else {
-        $data['pagination'] = '';
-        $data['results'] = $templates['no-results'](array());
+        $data['results'] = $results;
     }
 }
 else {
-    $random = str_replace('http:', 'https:', file_get_contents('https://exploreuk.uky.edu/catalog/random'));
-    $data['results'] = $templates['home'](array('random' => $random));
+    $data['on_front_page'] = true;
+    #$random = str_replace('http:', 'https:', file_get_contents('https://exploreuk.uky.edu/catalog/random'));
+    #$data['results'] = $templates['home'](array('random' => $random));
 }
 
-# active filters
-$filter_links = array();
-if (count($query['fq']) > 0) {
-    $navs = array();
-    foreach ($query['fq'] as $fq_term) {
-        preg_match('/(?<name>[^:]+):"(?<value>.*)"/', $fq_term, $matches);
-        $name = $matches['name'];
-        $value = $matches['value'];
-        $link = remove_filter($name, $value);
-        $data_filter = "$name:$value";
-        $title = facet_displayname($name) . ':' . $value;
-        $navs[] = "<a class=\"close\" href=\"$link\">&times;</a><a href=\"$link\" class=\"selectedNav\" data-filter=\"$data_filter\" title=\"$title\">$title</a><br>";
-    }
-    $data['active_filters'] = $templates['chosen-nav-template-php'](array(
-        'navs' => implode('', $navs),
-    ));
-}
-
-# facets
-$facet_links = array();
-foreach ($facets as $facet) {
-    $facet_counts = $result['facet_counts']['facet_fields'][$facet];
-    if (count($facet_counts) > 0) {
-        $navs_sensible = makeNavsSensible($facet_counts);
-        $navs = array();
-        foreach ($navs_sensible as $label => $count) {
-            $link = add_filter($facet, $label);
-            $navs[] = "<a href='$link' title='$label ($count)'>$label</a> ($count)<br>";
-        }
-        $facet_links[] = $templates['nav-template-php'](array(
-            'title' => $facet,
-            'navs' => implode('', $navs),
-        ));
-    }
-}
-$data['facets'] = implode('', $facet_links);
+# JSON
+$data['json'] = htmlspecialchars(json_encode($data));
 
 print $templates['index']($data);

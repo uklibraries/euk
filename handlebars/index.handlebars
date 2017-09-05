@@ -1,48 +1,149 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>{{title}}</title>
+<head>
+    <title>{{site_title}}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Bootstrap -->
-    <link href="/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
-    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+</head>
+<body>
+<h1>{{site_title}}</h1>
 
-    <link href="/css/solrstrap.css" rel="stylesheet" media="screen">
-  </head>
-  <body>
+<h2>Search box</h2>
 
-    <!--actual visible HTML-->
-    <div class="navbar navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <a class="brand" href="/">{{site_title}}</a>
-          <form class="navbar-search" style="float:right" action="/">
-            <div id="search-div">
-              <input type="text" class="search-query span8" placeholder="{{search_placeholder}}" id="solrstrap-searchbox" name="q">
-            </div>
-          </form>
+<p>
+{{{query}}}
+</p>
+
+<p>
+<a href="{{search_link}}">{{search_link}}</a>
+</p>
+
+<p><a href="/catalog{{back_to_search}}">Back to search</a></p>
+
+<p><a href="/">Start over</a></p>
+
+                    <div id="search" class="search">
+                        <!-- This will need to be modified -->
+                        <form action="/catalog" method="get">
+                            <h2 class="search"><label for="q">Search </label></h2>
+                            <input class="q" id="q" name="q" type="text" value="{{q}}"/>
+                            <label for="search_field"> in </label>
+                            <select class="search_field" id="search_field" name="search_field" title="Targeted search options">
+                                <option value="all_fields">All Fields</option>
+                                <option value="title">Title</option>
+                                <option value="author">Author</option>
+                                <option value="subject">Subject</option>
+                            </select>
+                            <input class="submit" name="commit" type="submit" value="search" />
+                            <div class="search_tips_container">
+                                <img alt="Search tips" src="/images/blacklight/search_tips.png" title="Search tips" />
+                                <ul class="search_tips">
+                                    <li>Search for a specific phrase by surrounding it in quotation marks.</li>
+                                    <li>Truncation and wildcards are not supported.</li>
+                                    <li>Word stemming is done automatically.</li>
+                                    <li>Use uppercase OR, AND, and NOT to create complex boolean logic.</li>
+                                    <li>Use parentheses in your complex expressions.</li>
+
+                                </ul>
+                            </div>
+                        </form>
+
+                        <hr/>
+                    </div>
+
+<hr>
+
+<h2>Facets</h2>
+
+{{#active_facets}}
+<h3>{{field_label}}</h3>
+<ul>
+<li>{{value_label}} ({{count}}) <a href="{{remove_link}}">[remove]</a></li>
+</ul>
+{{/active_facets}}
+
+
+{{#facets}}
+<h3>{{field_label}}</h3>
+<ul>
+{{#values}}
+<li><a href="{{add_link}}">{{value_label}} ({{count}})</a></li>
+{{/values}}
+</ul>
+{{/facets}}
+
+<hr>
+
+<h2>Pagination</h2>
+
+{{#pagination}}
+<p>
+{{#if previous}}
+<a href="{{previous}}" class="prev_page">&laquo; Previous</a>
+{{else}}
+&laquo; Previous
+{{/if}}
+</p>
+<p>
+{{#if next}}
+<a href="{{next}}" class="next_page">Next &raquo;</a>
+{{else}}
+<span class="disabled next_page">Next &raquo;</span>
+{{/if}}
+</p>
+<p>
+{{first}} - {{last}} of {{count}}
+</p>
+{{/pagination}}
+
+<hr>
+
+<h2>Results</h2>
+
+{{#results}}
+{{#if link}}
+<div class="document blacklight-{{format}}">
+    <div class="documentHeader yui-g">
+        <div class="yui-u documentFunctions">&nbsp;</div>
+        <div class="yui-u">
+            <h3 class="index_title">{{number}}. <a href="{{link}}"{{target}}">{{{title}}}</a></h3>
         </div>
-      </div>
     </div>
-    <div class="container">
-      <div class="row">
-        <div id="solrstrap-facets" class="col-md-4">
-        {{{active_filters}}}
-        {{{facets}}}
-        </div>
-        <div id="solrstrap-hits" class="col-md-8">
-        {{{pagination}}}
-        {{{results}}}
-        {{{pagination}}}
-        {{{home}}}
-        </div>
-      </div>
-    </div>
+    <dl class="defList">
+{{#if thumb}}
+<dt></dt>
+<dd>
+<a href="{{link}}"{{target}}><img src="{{thumb}}"/></a>
+</dd>
+{{/if}}
+{{#if source}}
+    <dt class="blacklight-source_s">Collection:</dt>
+    <dd class="blacklight-source_s">{{source}}</dd>
+{{/if}}
+{{#if pubdate}}
+    <dt class="blacklight-pubdate">Publication date:</dt>
+    <dd class="blacklight-pubdate">{{pubdate}}</dd>
+{{/if}}
+{{#if format}}
+    <dt class="blacklight-format">Format:</dt>
+    <dd class="blacklight-format">{{format}}</dd>
+{{/if}}
+    </dl>
+{{/if}}
+</div>
+{{/results}}
 
-    <!--load scripts at the bottom-->
-    <script type="text/javascript" src="/js/jquery.min.js"></script>
-    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
-  </body>
+<hr>
+
+{{#if on_front_page}}
+<p>On front page</p>
+{{else}}
+<p>Not on front page</p>
+{{/if}}
+
+<h2>JSON</h2>
+<p>
+{{{json}}}
+</p>
+
+</body>
 </html>

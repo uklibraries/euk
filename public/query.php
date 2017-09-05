@@ -4,7 +4,7 @@ initialize_query();
 
 function on_front_page() {
     global $query;
-    return !(isset($query['q']) or count($query['fq']) > 0 or $query['offset'] > 0);
+    return !(isset($query['q']) or count($query['fq']) > 0 or count($query['f']) > 0 or $query['offset'] > 0);
 }
 
 function initialize_query() {
@@ -12,7 +12,9 @@ function initialize_query() {
     $query = array(
         'q' => null,
         'fq' => array(),
+        'f' => array(),
         'offset' => 0,
+        'rows' => 20,
     );
     $raw_params = array();
     if (isset($_SERVER['QUERY_STRING'])) {
@@ -28,6 +30,10 @@ function initialize_query() {
             }
             elseif ($key == 'fq[]') {
                 $query['fq'][] = $value;
+            }
+            elseif (substr($key, 0, 2) == 'f[') {
+                $subkey = substr($key, 2, -3);
+                $query['f'][$subkey] = $value;
             }
             elseif ($key == 'offset') {
                 $query['offset'] = intval($value);
@@ -45,6 +51,9 @@ function link_to_query($query) {
     foreach ($query['fq'] as $fq_term) {
         $pieces[] = 'fq[]=' . urlencode($fq_term);
     }
+    foreach ($query['f'] as $f_term => $value) {
+        $pieces[] = urlencode("f[$f_term][]") . '=' . urlencode($value);
+    }
     if ($query['offset'] > 0) {
         $pieces[] = 'offset=' . urlencode($query['offset']);
     }
@@ -52,9 +61,8 @@ function link_to_query($query) {
 }
 
 function previous_link() {
-    global $hits_per_page;
     global $query;
-    $offset = $query['offset'] - $hits_per_page;
+    $offset = $query['offset'] - $query['rows'];
     if ($offset > 0) {
         $previous_query['offset'] = $offset;
     }
@@ -64,14 +72,14 @@ function previous_link() {
     return link_to_query(array(
         'q' => $query['q'],
         'fq' => $query['fq'],
+        'f' => $query['f'],
         'offset' => $offset,
     ));
 }
 
 function next_link() {
-    global $hits_per_page;
     global $query;
-    $offset = $query['offset'] + $hits_per_page;
+    $offset = $query['offset'] + $query['rows'];
     if ($offset > 0) {
         $previous_query['offset'] = $offset;
     }
@@ -81,33 +89,45 @@ function next_link() {
     return link_to_query(array(
         'q' => $query['q'],
         'fq' => $query['fq'],
+        'f' => $query['f'],
         'offset' => $offset,
     ));
 }
 
 function add_filter($facet, $label) {
     global $query;
-    $fq = $query['fq'];
-    $fq[] = $facet . ':"' . $label . '"';
+    $f = $query['f'];
+    $f[$facet] = $label;
     return link_to_query(array(
         'q' => $query['q'],
-        'fq' => $fq,
+        'fq' => $query['fq'],
+        'f' => $f,
+        'offset' => $query['offset'],
+    ));
+}
+
+function remove_search_term($label) {
+    global $query;
+    return link_to_query(array(
+        'q' => '',
+        'fq' => $query['fq'],
+        'f' => $query['f'],
         'offset' => $query['offset'],
     ));
 }
 
 function remove_filter($facet, $label) {
     global $query;
-    $sought_term = $facet . ':"' . $label . '"';
-    $fq = array();
-    foreach ($query['fq'] as $fq_term) {
-        if ($fq_term != $sought_term) {
-            $fq[] = $fq_term;
+    $f = array();
+    foreach ($query['f'] as $potential_term => $label) {
+        if ($potential_term != $facet) {
+            $f[$potential_term] = $label;
         }
     }
     return link_to_query(array(
         'q' => $query['q'],
-        'fq' => $fq,
+        'fq' => $query['fq'],
+        'f' => $f,
         'offset' => $query['offset'],
     ));
 }
@@ -121,12 +141,12 @@ function get_search_results() {
 function build_search_params() {
     global $query;
     global $facets;
-    global $hits_per_page;
     $q = $query['q'];
     $fq = $query['fq'];
+    $f = $query['f'];
     $offset = $query['offset'];
     $pieces = array();
-    $pieces[] = "rows=$hits_per_page";
+    $pieces[] = 'rows=' . $query['rows'];
     $pieces[] = 'wt=json';
     $pieces[] = 'q=' . urlencode($q);
     if ($offset > 0) {
@@ -143,6 +163,11 @@ function build_search_params() {
     if (count($fq) > 0) {
         foreach ($fq as $spec) {
             $pieces[] = 'fq=' . urlencode($spec);
+        }
+    }
+    if (count($f) > 0) {
+        foreach ($f as $label => $value) {
+            $pieces[] = 'fq=' . urlencode("{!raw f=$label}$value");
         }
     }
     # compound object
