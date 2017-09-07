@@ -7,12 +7,58 @@ else {
     $id = 'unknown';
 }
 
+$result = get_search_results();
+
 $data = array(
-    'title' => $title,
     'site_title' => $site_title,
-    'search_placeholder' => $search_placeholder,
 );
+
+# Search
+$data['query'] = htmlspecialchars(json_encode($query));
+$data['q'] = $query['q'];
+$data['search_link'] = "$solr?" . build_search_params();
 $data['back_to_search'] = link_to_query($query);
+
+# Facets
+$data['active_facets'] = array();
+foreach ($query['f'] as $f_term => $value) {
+    $remove_link = remove_filter($f_term, $value);
+    $field_label = facet_displayname($f_term);
+    $facet_counts = $result['facet_counts']['facet_fields'][$f_term];
+    $count = 0;
+    if (count($facet_counts) > 0) {
+        $navs_sensible = makeNavsSensible($facet_counts);
+        $count = $navs_sensible[$value];
+    }
+    $data['active_facets'][] = array(
+        'field_label' => $field_label,
+        'remove_link' => $remove_link,
+        'field_raw' => $f_term,
+        'value_label' => $value,
+        'count' => $count,
+    );
+}
+
+$data['facets'] = array();
+foreach ($facets as $facet) {
+    $facet_counts = $result['facet_counts']['facet_fields'][$facet];
+    if (count($facet_counts) > 2) {
+        $navs_sensible = makeNavsSensible($facet_counts);
+        $values = array();
+        foreach ($navs_sensible as $label => $count) {
+            $add_link = add_filter($facet, $label);
+            $values[] = array(
+                'add_link' => $add_link,
+                'value_label' => $label,
+                'count' => $count,
+            );
+        }
+        $data['facets'][] = array(
+            'field_label' => facet_displayname($facet),
+            'values' => $values,
+        );
+    }
+}
 
 $doc = get_document($id);
 $format = $doc['format'];

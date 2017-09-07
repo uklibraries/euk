@@ -1,58 +1,81 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>{{title}}</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Bootstrap -->
-    <link href="/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
-    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-
-    <link href="/css/solrstrap.css" rel="stylesheet" media="screen">
-    <link href="/css/mediaelementplayer.min.css" rel="stylesheet" media="screen">
-    <link href="/css/lity.min.css" rel="stylesheet" media="screen">
-  </head>
-  <body>
-
-    <!--actual visible HTML-->
-    <div class="navbar navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <a class="brand" href="/">{{site_title}}</a>
-          <form class="navbar-search" style="float:right" action="/">
-            <div id="search-div">
-              <input type="text" class="search-query span8" placeholder="{{search_placeholder}}" id="solrstrap-searchbox" name="q">
-              <p><a href="/">Start over</a></p>
-              <p><a href="/{{back_to_search}}">Back to search</a></p>
+<head>
+<title>{{site_title}}</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Bootstrap -->
+<link href="/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
+<link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<link href="/css/mediaelementplayer.min.css" rel="stylesheet" media="screen">
+<link href="/css/lity.min.css" rel="stylesheet" media="screen">
+<style type="text/css">
+.col-md-1,.col-md-2,.col-md-3,.col-md-4,.col-md-5,.col-md-6,.col-md-7,.col-md-8,.col-md-9,.col-md-10,.col-md-11,.col-md-12 {
+    border: 1px dotted black;
+}
+.site {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+.site-content {
+    flex: 1;
+}
+</style>
+</head>
+<body class="site">
+<div class="container-fluid site-content">
+<div class="row">
+    <div class="col-md-6">
+        <h1><a href="/">{{site_title}}</a></h1>
+    </div>
+    <div class="col-md-6">
+        <form action="/catalog" method="get">
+            <div class="form-group">
+                <input class="q form-control" type="text" name="q" value="{{q}}">
+                <span class="input-group-btn"><button type="submit" class="btn btn-default" value="search">Search</button></span>
             </div>
-          </form>
-        </div>
-      </div>
+        </form>
     </div>
-    <div class="container">
-      <div class="row">
-        <div id="solrstrap-facets" class="col-md-4">
-        {{{active_filters}}}
-        {{{facets}}}
-        </div>
-        <div id="solrstrap-hits" class="col-md-8">
-        {{{pagination}}}
-        {{{results}}}
-        {{{pagination}}}
-        {{{home}}}
-        {{{item}}}
-        </div>
-      </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+<p><a href="/catalog{{back_to_search}}">Back to search</a></p>
+
+<p><a href="/">Start over</a></p>
+
+<h2>Limit your search</h2>
+
+{{#active_facets}}
+<h3>{{field_label}}</h3>
+<ul>
+<li>{{value_label}} ({{count}}) <a href="{{remove_link}}">[remove]</a></li>
+</ul>
+{{/active_facets}}
+
+{{#facets}}
+<h3>{{field_label}}</h3>
+<ul>
+{{#values}}
+<li><a href="{{add_link}}">{{value_label}} ({{count}})</a></li>
+{{/values}}
+</ul>
+{{/facets}}
     </div>
 
-    <!--load scripts at the bottom-->
-    <script type="text/javascript" src="/js/jquery.min.js"></script>
-    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
-    <!--<script type="text/javascript" src="/openseadragon/openseadragon.min.js"></script>-->
-    <script type="text/javascript" src="/openseadragon/openseadragon.js"></script>
-    <script type="text/javascript" src="/js/mediaelementplayer.min.js"></script>
-    <script type="text/javascript" src="/js/lity.min.js"></script>
-    {{{scripts}}}
-  </body>
+    <div class="col-md-8">
+    {{{item}}}
+    </div>
+</div>
+</div>
+<!--load scripts at the bottom-->
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/openseadragon/openseadragon.js"></script>
+<script type="text/javascript" src="/js/mediaelementplayer.min.js"></script>
+<script type="text/javascript" src="/js/lity.min.js"></script>
+{{{scripts}}}
+</body>
 </html>
