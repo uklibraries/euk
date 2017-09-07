@@ -1,34 +1,51 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{{site_title}}</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>{{site_title}}</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Bootstrap -->
+<link href="/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
+<link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<!--<link href="/css/sticky-footer.css" rel="stylesheet" media="screen">-->
+<style type="text/css">
+.col-md-1,.col-md-2,.col-md-3,.col-md-4,.col-md-5,.col-md-6,.col-md-7,.col-md-8,.col-md-9,.col-md-10,.col-md-11,.col-md-12 {
+    border: 1px dotted black;
+}
+.site {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+.site-content {
+    flex: 1;
+}
+</style>
 </head>
-<body>
-<h1>{{site_title}}</h1>
+<body class="site">
+<div class="container-fluid site-content">
+<div class="row">
+    <div class="col-md-6">
+        <h1><a href="/">{{site_title}}</a></h1>
+    </div>
+    <div class="col-md-6">
+        <form action="/catalog" method="get">
+            <div class="form-group">
+                <input class="q form-control" type="text" name="q" value="{{q}}">
+                <span class="input-group-btn"><button type="submit" class="btn btn-default" value="search">Search</button></span>
+            </div>
+        </form>
+    </div>
+</div>
 
-<h2>Search box</h2>
-
-<p>
-{{{query}}}
-</p>
-
-<p>
-<a href="{{search_link}}">{{search_link}}</a>
-</p>
-
+<div class="row">
+    <div class="col-md-4">
 <p><a href="/catalog{{back_to_search}}">Back to search</a></p>
 
 <p><a href="/">Start over</a></p>
 
-<form action="/catalog" method="get">
-    <input class="q" type="text" value="{{q}}"/>
-    <input class="submit" name="commit" type="submit" value="search"/>
-</form>
-
-<hr>
-
-<h2>Facets</h2>
+<h2>Limit your search</h2>
 
 {{#active_facets}}
 <h3>{{field_label}}</h3>
@@ -36,7 +53,6 @@
 <li>{{value_label}} ({{count}}) <a href="{{remove_link}}">[remove]</a></li>
 </ul>
 {{/active_facets}}
-
 
 {{#facets}}
 <h3>{{field_label}}</h3>
@@ -46,12 +62,12 @@
 {{/values}}
 </ul>
 {{/facets}}
+    </div>
 
-<hr>
-
-<h2>Pagination</h2>
-
+    <div class="col-md-8">
 {{#pagination}}
+        <div class="row">
+        <div class="col-md-4">
 <p>
 {{#if previous}}
 <a href="{{previous}}" class="prev_page">&laquo; Previous</a>
@@ -59,6 +75,13 @@
 &laquo; Previous
 {{/if}}
 </p>
+        </div>
+        <div class="col-md-4">
+<p>
+{{first}} - {{last}} of {{count}}
+</p>
+        </div>
+        <div class="col-md-4">
 <p>
 {{#if next}}
 <a href="{{next}}" class="next_page">Next &raquo;</a>
@@ -66,14 +89,9 @@
 <span class="disabled next_page">Next &raquo;</span>
 {{/if}}
 </p>
-<p>
-{{first}} - {{last}} of {{count}}
-</p>
+        </div>
+        </div>
 {{/pagination}}
-
-<hr>
-
-<h2>Results</h2>
 
 {{#results}}
 {{#if link}}
@@ -108,7 +126,64 @@
 </div>
 {{/results}}
 
+{{#pagination}}
+        <div class="row">
+        <div class="col-md-4">
+<p>
+{{#if previous}}
+<a href="{{previous}}" class="prev_page">&laquo; Previous</a>
+{{else}}
+&laquo; Previous
+{{/if}}
+</p>
+        </div>
+        <div class="col-md-4">
+<p>
+{{first}} - {{last}} of {{count}}
+</p>
+        </div>
+        <div class="col-md-4">
+<p>
+{{#if next}}
+<a href="{{next}}" class="next_page">Next &raquo;</a>
+{{else}}
+<span class="disabled next_page">Next &raquo;</span>
+{{/if}}
+</p>
+        </div>
+        </div>
+{{/pagination}}
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="container-fluid">
+<div class="row">
+    <div class="col-md-6">
+        <h1>{{site_title}} footer</h1>
+    </div>
+    <div class="col-md-6">
+        <p>howdy footer</p>
+    </div>
+</div>
+    </div>
+</footer>
+</div>
+<!--
 <hr>
+<hr>
+<hr>
+
+<h1>Debug information</h1>
+
+<h2>Query</h2>
+<p>
+{{{query}}}
+</p>
+
+<p>
+<a href="{{search_link}}">{{search_link}}</a>
+</p>
 
 {{#if on_front_page}}
 <p>On front page</p>
@@ -120,6 +195,6 @@
 <p>
 {{{json}}}
 </p>
-
+-->
 </body>
 </html>

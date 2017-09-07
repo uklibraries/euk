@@ -99,6 +99,7 @@ if (!on_front_page()) {
             # cleanup
             if (isset($results_data['thumb'])) {
                 $results_data['thumb'] = str_replace('http:', 'https:', $results_data['thumb']);
+                $results_data['thumb'] = str_replace('_tb.jpg', '_ftb.jpg', $results_data['thumb']);
             }
             $results_data['link'] = '/catalog/' . $docs[$i]['id'] . link_to_query($query);
             $results_data['number'] = $query['offset'] + $i + 1;
