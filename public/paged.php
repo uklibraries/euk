@@ -113,8 +113,8 @@ $flat['metadata'] = $metadata;
 
 $pages = get_pages($id);
 if ($pages) {
-    $data['scripts'] = $templates['script-book-embed'](array(
+    $data['script'] = array(
         'json' => json_encode($pages),
-    ));
+    );
 }
 print $templates['books-embed']($data);

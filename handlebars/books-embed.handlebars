@@ -10,7 +10,6 @@
 </head>
 <body>
 <div id="BookReader">
-{{{item}}}
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
 <script type="text/javascript" src="/BookReader/jquery-ui-1.8.5.custom.min.js"></script>
@@ -19,6 +18,11 @@
 <script type="text/javascript" src="/BookReader/jquery.ui.ipad.js"></script>
 <script type="text/javascript" src="/BookReader/jquery.bt.min.js"></script>
 <script type="text/javascript" src="/BookReader/BookReader.js"></script>
-{{{scripts}}}
+{{#script}}
+<script type="text/javascript">
+var json = {{{json}}};
+</script>
+<script type="text/javascript" src="/BookReaderDemo/BookReaderJSmod.js"></script>
+{{/script}}
 </body>
 </html>
