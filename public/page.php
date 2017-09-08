@@ -137,7 +137,7 @@ $flat['metadata'] = $metadata;
 
 switch ($format) {
 case 'audio':
-    $data['item'] = $templates['item-media'](array_merge(
+    $data['item_audio'] = array_merge(
         $flat,
         array(
             'audio' => array(
@@ -145,22 +145,22 @@ case 'audio':
                 'href' => $flat['reference_audio_url_s'],
             ),
         )
-    ));
-    $data['scripts'] = $templates['script-media'](array());
+    );
+    $data['script_media'] = true;
     print $templates['show']($data);
     break;
 case 'drawings (visual works)':
     /* fall through */
 case 'images':
-    $data['item'] = $templates['item-image']($flat);
-    $data['scripts'] = $templates['script-image'](array_merge(
+    $data['item_image'] = $flat;
+    $data['script_image'] = array_merge(
         $flat,
         array(
             'osd_id' => 'viewer',
             'prefix_url' => '/openseadragon/images/',
             'ref_id' => 'reference_image',
         )
-    ));
+    );
     print $templates['show']($data);
     break;
 case 'annual reports':

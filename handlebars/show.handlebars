@@ -66,8 +66,55 @@
     </div>
 
     <div class="col-md-8">
-    {{{item}}}
+{{#item_audio}}
+<h2>{{title_display}}</h2>
+
+<div id="media_player">
+{{#audio}}
+<p class="click-to-play-audio" data-id="{{href_id}}" data-href="{{href}}"><span class="glyphicon glyphicon-play"></span><br>play</p>
+{{/audio}}
+{{#video}}
+<p class="click-to-play-video" data-id="{{href_id}}" data-href="{{href}}"><span class="glyphicon glyphicon-play"></span><br>play</p>
+{{/video}}
+</div>
+{{/item_audio}}
+
+{{#item_image}}
+<h2>{{title_display}}</h2>
+
+<div id="image_viewer">
+    <img class="reference_image" id="reference_image" src="{{reference_image_url_s}}">
+    <div id="viewer" style="width: 100%; height: 600px;"></div>
+</div>
+
+<div>
+<p><a href="#download" data-lity>Download</a></p>
+<div id="download" class="lity-hide" style="background: white;">
+    <a href="/catalog/{{id}}/download/?type=jpeg">JPEG</a>
+    <a href="/catalog/{{id}}/download/?type=pdf">PDF</a>
+</div>
+</div>
+<div>
+<ul>
+{{#metadata}}
+{{^anchor}}
+<li>{{label}}:
+{{#link}}
+<a href="{{value}}">{{value}}</a>
+{{/link}}
+{{^link}}
+{{value}}
+{{/link}}</li>
+{{/anchor}}
+{{#anchor}}
+<li><a href="{{value}}">{{label}}</a></li>
+{{/anchor}}
+{{/metadata}}
+</ul>
+</div>
+{{/item_image}}
     </div>
+    {{{item}}}
 </div>
 </div>
 <!--load scripts at the bottom-->
@@ -76,6 +123,47 @@
 <script type="text/javascript" src="/openseadragon/openseadragon.js"></script>
 <script type="text/javascript" src="/js/mediaelementplayer.min.js"></script>
 <script type="text/javascript" src="/js/lity.min.js"></script>
-{{{scripts}}}
+{{#script_media}}
+<script type="text/javascript">
+$('.click-to-play-audio').click(function () {
+  var href_id = $(this).attr('data-id');
+  var href = $(this).attr('data-href');
+  $(this).after('<audio id="' + href_id + '" src="' + href  + '" style="display:block, width: 305px; height: 30px;" width="305" height="30"></audio>');
+  $('#' + href_id).mediaelementplayer();
+  var player = new MediaElement(href_id);
+  player.pause();
+  player.setSrc(href);
+  player.play();
+  $(this).remove();
+});
+$('.click-to-play-video').click(function () {
+  var href_id = $(this).attr('data-id');
+  var href = $(this).attr('data-href');
+  $(this).after('<video id="' + href_id + '" src="' + href  + '" style="display:block, width: 360px; height: 240px;" width="360" height="240"></audio>');
+  $('#' + href_id).mediaelementplayer();
+  var player = new MediaElement(href_id);
+  player.pause();
+  player.setSrc(href);
+  player.play();
+  $(this).remove();
+});
+</script>
+{{/script_media}}
+{{#script_image}}
+<script type="text/javascript">
+var id = '{{osd_id}}';
+var osd_viewer = OpenSeadragon({
+    id: id,
+    prefixUrl: "{{prefix_url}}",
+    tileSources: {
+        type: 'image',
+        url: '{{reference_image_url_s}}'
+    }
+});
+$(osd_viewer.element).find('.openseadragon-canvas').css('background-color', 'black');
+$('#{{ref_id}}').hide();
+</script>
+{{/script_image}}
+    {{{scripts}}}
 </body>
 </html>
