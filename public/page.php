@@ -147,7 +147,6 @@ case 'audio':
         )
     );
     $data['script_media'] = true;
-    print $templates['show']($data);
     break;
 case 'drawings (visual works)':
     /* fall through */
@@ -161,7 +160,6 @@ case 'images':
             'ref_id' => 'reference_image',
         )
     );
-    print $templates['show']($data);
     break;
 case 'annual reports':
     /* fall through */
@@ -201,12 +199,12 @@ case 'yearbooks':
         );
     }
     $data['item'] = $templates['books']($flat);
-    print $templates['show']($data);
     break;
 case 'collections':
     /* We'll want to embed this eventually */
     $target = "https://nyx.uky.edu/fa/findingaid/?id=$id";
     header('Location: '. $target);
+    exit;
     break;
 default:
     $pieces = array();
@@ -219,6 +217,6 @@ default:
     $data['item'] = '<ul><li>' . implode('</li><li>', $pieces) . "</li></ul>\n";
     $url = "$solr?" . document_query($id);
     $data['item'] .= "<p><a href=\"$url\">$url</a></p>";
-    print $templates['show']($data);
     break;
 }
+print $templates['show']($data);
