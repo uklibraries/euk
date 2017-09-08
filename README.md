@@ -1,7 +1,7 @@
-mini-euk
-========
+euk
+===
 
-This application is a translation of the [Solrstrap](https://github.com/fergiemcdowall/solrstrap)
+This application was originally a translation of the [Solrstrap](https://github.com/fergiemcdowall/solrstrap)
 project into PHP.  This allows a similar interface to be provided without requiring users to
 run JavaScript.  Just like Solrstrap, this uses Bootstrap for styling and Handlebars for templates.
 
