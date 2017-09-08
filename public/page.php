@@ -198,7 +198,7 @@ case 'yearbooks':
             'href' => '/catalog/' . $id . '/text',
         );
     }
-    $data['item'] = $templates['books']($flat);
+    $data['item_book'] = $flat;
     break;
 case 'collections':
     /* We'll want to embed this eventually */
