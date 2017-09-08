@@ -16,44 +16,16 @@
   <body>
 
     <!--actual visible HTML-->
-    <!--
-    <div class="navbar navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <a class="brand" href="/">{{site_title}}</a>
-          <form class="navbar-search" style="float:right" action="/">
-            <div id="search-div">
-              <input type="text" class="search-query span8" placeholder="{{search_placeholder}}" id="solrstrap-searchbox" name="q">
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-    -->
     <div class="container">
       <div class="row">
-      <!--
-        <div id="solrstrap-facets" class="col-md-4">
-        {{{active_filters}}}
-        {{{facets}}}
-        </div>
-        -->
-        <!--<div id="solrstrap-hits" class="col-md-8">-->
-        {{{pagination}}}
-        {{{results}}}
-        {{{pagination}}}
-        {{{home}}}
         <div id="BookReader">
         {{{item}}}
-        <!--</div>-->
         </div>
       </div>
     </div>
 
     <!--load scripts at the bottom-->
-    <!--<script type="text/javascript" src="/js/jquery.min.js"></script>-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
-    <!--<script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>-->
     <script type="text/javascript" src="/BookReader/jquery-ui-1.8.5.custom.min.js"></script>
     <script type="text/javascript" src="/BookReader/dragscrollable.js"></script>
     <script type="text/javascript" src="/BookReader/jquery.colorbox-min.js"></script>

@@ -113,8 +113,6 @@ if (!on_front_page()) {
 }
 else {
     $data['on_front_page'] = true;
-    #$random = str_replace('http:', 'https:', file_get_contents('https://exploreuk.uky.edu/catalog/random'));
-    #$data['results'] = $templates['home'](array('random' => $random));
 }
 
 # JSON
