@@ -1,37 +1,24 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title>{{title}}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Bootstrap -->
-    <link href="/bootstrap2/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
-    <link href="/bootstrap2/css/bootstrap.min.css" rel="stylesheet" media="screen">
-
-    <link href="/css/solrstrap.css" rel="stylesheet" media="screen">
     <link href="/BookReader/BookReader.css" rel="stylesheet"/>
     <link href="/BookReaderDemo/BookReaderDemo.css"/>
-  </head>
-  <body>
-
-    <!--actual visible HTML-->
-    <div class="container">
-      <div class="row">
-        <div id="BookReader">
-        {{{item}}}
-        </div>
-      </div>
-    </div>
-
-    <!--load scripts at the bottom-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
-    <script type="text/javascript" src="/BookReader/jquery-ui-1.8.5.custom.min.js"></script>
-    <script type="text/javascript" src="/BookReader/dragscrollable.js"></script>
-    <script type="text/javascript" src="/BookReader/jquery.colorbox-min.js"></script>
-    <script type="text/javascript" src="/BookReader/jquery.ui.ipad.js"></script>
-    <script type="text/javascript" src="/BookReader/jquery.bt.min.js"></script>
-    <script type="text/javascript" src="/BookReader/BookReader.js"></script>
-    {{{scripts}}}
-  </body>
+</head>
+<body>
+<div id="BookReader">
+{{{item}}}
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+<script type="text/javascript" src="/BookReader/jquery-ui-1.8.5.custom.min.js"></script>
+<script type="text/javascript" src="/BookReader/dragscrollable.js"></script>
+<script type="text/javascript" src="/BookReader/jquery.colorbox-min.js"></script>
+<script type="text/javascript" src="/BookReader/jquery.ui.ipad.js"></script>
+<script type="text/javascript" src="/BookReader/jquery.bt.min.js"></script>
+<script type="text/javascript" src="/BookReader/BookReader.js"></script>
+{{{scripts}}}
+</body>
 </html>
