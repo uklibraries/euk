@@ -10,21 +10,7 @@
 <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
 <link href="/css/mediaelementplayer.min.css" rel="stylesheet" media="screen">
 <link href="/css/lity.min.css" rel="stylesheet" media="screen">
-<style type="text/css">
-/*
-.col-md-1,.col-md-2,.col-md-3,.col-md-4,.col-md-5,.col-md-6,.col-md-7,.col-md-8,.col-md-9,.col-md-10,.col-md-11,.col-md-12 {
-    border: 1px dotted black;
-}
-*/
-.site {
-    display: flex;
-    min-height: 100vh;
-    flex-direction: column;
-}
-.site-content {
-    flex: 1;
-}
-</style>
+<link href="/css/euk.css" rel="stylesheet" media="screen">
 </head>
 <body class="site">
 <div class="container-fluid site-content">
@@ -193,10 +179,14 @@ window.addEventListener('message', function (e) {
     <div class="container-fluid">
 <div class="row">
     <div class="col-md-6">
-        <h1>{{site_title}} footer</h1>
+        <a href="https://libraries.uky.edu"><img class="footer-logo" src="/images/ukl-logo.png"></a>
     </div>
     <div class="col-md-6">
-        <p>howdy footer</p>
+        <ul class="footer-links">
+            <li><a href="https://libraries.uky.edu/SC">Special Collections Research Center (SCRC)</a></li>
+            <li><a href="https://libraries.uky.edu/ContactSCRC">Contact SCRC</a></li>
+            <li><a href="https://libraries.uky.edu/libpage.php?lweb_id=111&llib_id=13&ltab_id=1694">Request and access SCRC materials</a></li>
+        </ul>
     </div>
 </div>
     </div>
